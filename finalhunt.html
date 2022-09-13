@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <script>
+            window.onload = function() {
+            var car = document.getElementById("carsPic");
+            var gold = document.getElementById("goldPic");
+            var moving = false;
+
+            car.addEventListener("mousedown", initialClick, false);
+
+
+            function move(e){
+
+            var newX = e.clientX - 10;
+            var newY = e.clientY - 10;
+
+            image.style.left = newX + "px";
+            image.style.top = newY + "px";
+
+            
+            }
+
+            function initialClick(e) {
+
+            if(moving){
+                document.removeEventListener("mousemove", move);
+                moving = !moving;
+                return;
+            }
+            
+            moving = !moving;
+            image = this;
+
+            document.addEventListener("mousemove", move, false);
+
+            }
+        }
+
+        var loadFile = function(event, isBg) {
+            var image = document.getElementById(isBg ? 'goldPic' : 'carsPic');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+
+        var loadBgFile = function(event) {
+            loadFile(event, true);
+        }
+        </script>
+        <style>
+            #carsPic, #goldPic {
+                position: absolute;
+                top: 50px;
+                left: 10px;
+            }
+
+            #carsPic {
+                top: 150px;
+                left: 150px;
+                z-index:1;
+                opacity: 0.5;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div>
+            Background: <input type="file"  accept="image/*" name="image" id="fileBg"  onchange="loadBgFile(event)">
+            Foreground: <input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)">
+        </div>
+        <img id="carsPic"/>
+        <img id="goldPic" />
+    </body>
+
+</html>
